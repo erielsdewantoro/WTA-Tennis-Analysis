@@ -1,73 +1,74 @@
-# Analisis Pertandingan Tenis WTA & Dashboard Prediktabilitas Odds
+# WTA Tennis Match Analysis & Odds Predictability Dashboard
 
 ![WTA Dashboard Preview](wta-dashboard.png)
 
-### ► [Link ke Dashboard Interaktif ([(https://drive.google.com/file/d/1oN-kCm_NKus6WUjQYlcA-1yjQF2bkxat/view?usp=drive_link))]()
+### ► [View the Interactive Dashboard](https://drive.google.com/file/d/1oN-kCm_NKus6WUjQYlcA-1yjQF2bkxat/view?usp=drive_link)
 
 ---
 
+## Project Overview
 
-Proyek ini merupakan analisis data end-to-end yang menyelami lebih dari **42,000 pertandingan** tenis putri (WTA) dari tahun 2006 hingga 2025. Tujuan utamanya adalah untuk menemukan pola dan tren dalam distribusi pertandingan, performa pemain, serta menganalisis secara mendalam akurasi prediksi *bookmaker* berdasarkan *odds* yang diberikan.
+This project is an end-to-end data analysis of over **42,000** Women's Tennis Association (WTA) matches from 2006 to 2025. The primary objective is to uncover patterns and trends in match distribution and player performance, while also conducting an in-depth analysis of bookmaker prediction accuracy based on provided odds.
 
-Hasil analisis divisualisasikan dalam sebuah dashboard Power BI interaktif yang terdiri dari dua halaman utama: **Gambaran Umum Pertandingan** dan **Analisis Prediktabilitas Odds**.
+The findings are visualized in an interactive Power BI dashboard, which consists of two main pages: **Matches Overview** and **Odds Predictability Analysis**.
 
 ---
 
 ## Dataset
 
-Dataset yang digunakan dalam proyek ini bersumber dari [**Kaggle**]. Dataset ini mencakup informasi detail untuk setiap pertandingan, termasuk:
-- Informasi turnamen (nama, tanggal, jenis lapangan).
-- Informasi pemain (pemenang dan yang kalah).
-- Statistik pertandingan (jumlah set).
-- Data betting odds dari berbagai *bookmaker*.
+The dataset used in this project was sourced from **Kaggle**. It includes detailed information for each match, such as:
+- Tournament details (name, date, surface type).
+- Player information (winner and loser).
+- Match statistics (number of sets).
+- Betting odds data from various bookmakers.
 
 ---
 
-## Metodologi & Teknologi
+## Methodology & Technology
 
-1.  **Data Wrangling & EDA (Exploratory Data Analysis):** Proses pembersihan, transformasi, dan analisis eksplorasi data awal dilakukan menggunakan **Python** dengan library **Pandas** dan **NumPy**.
-2.  **Visualisasi Data & Dashboarding:** Data yang telah diproses kemudian dimuat ke **Power BI** untuk pembuatan model data dan visualisasi interaktif.
-
----
-
-## Analisis Mendalam Dashboard
-
-Dashboard ini terbagi menjadi dua bagian analisis utama:
-
-### 1. Halaman: WTA Matches Overview (2006–2025)
-Halaman ini memberikan gambaran umum tentang lanskap turnamen WTA.
-
-**KPI Utama:**
-- **Total Pertandingan:** 42,815
-- **Pemain Unik:** 2,148
-- **Rata-rata Set per Pertandingan:** 2.33
-- **Tingkat Kemenangan Tak Terduga (Upset Rate):** 34.8%
-
-**Visualisasi Kunci:**
-- **Tren Pertandingan & Upset Rate Tahunan:** Menunjukkan fluktuasi jumlah pertandingan dan tingkat *upset* dari tahun ke tahun.
-- **Top 10 Pemain dengan Kemenangan Terbanyak:** Mengidentifikasi pemain paling dominan dalam dataset, dipimpin oleh Wozniacki (588 kemenangan).
-- **Distribusi Pertandingan per Babak:** Menunjukkan bahwa hampir setengah (47.3%) dari semua pertandingan terjadi di babak pertama.
-- **Distribusi Pertandingan per Jenis Lapangan:** Menyoroti dominasi lapangan **Hard Court** (26K pertandingan) dibandingkan dengan Clay (12K) dan Grass (5K).
-
-### 2. Halaman: Predictability of Matches by Odds
-Halaman ini fokus menganalisis seberapa akurat *odds* dari *bookmaker* dalam memprediksi hasil pertandingan.
-
-**KPI Utama:**
-- **Akurasi Odds Keseluruhan:** 49.70% (hampir seperti lemparan koin).
-- **Rata-rata Selisih Odds (Odds Gap):** 50%
-- **Total Upset:** 34.8% dari pertandingan dimenangkan oleh pemain yang tidak diunggulkan.
-
-**Visualisasi Kunci:**
-- **Tren Akurasi Odds Tahunan:** Menunjukkan bagaimana akurasi *bookmaker* berfluktuasi sepanjang waktu, umumnya berada di antara 40-55%.
-- **Akurasi Odds per Jenis Lapangan:** Memberikan wawasan bahwa prediksi paling akurat terjadi di lapangan **Greenset (59%)** dan paling tidak akurat di lapangan **Carpet (47%)**.
-- **Hubungan Odds Gap vs Prediksi Benar:** Mengkonfirmasi hipotesis bahwa semakin besar selisih *odds* antara pemain, semakin tinggi kemungkinan prediksi *bookmaker* benar.
-- **Matriks Akurasi per Babak dan Lapangan:** Menyediakan analisis granular yang menunjukkan bagaimana akurasi bervariasi tergantung pada kombinasi babak turnamen dan jenis lapangan.
+1.  **Data Wrangling & EDA (Exploratory Data Analysis):** The initial data cleaning, transformation, and exploratory analysis were performed using **Python** with the **Pandas** and **NumPy** libraries.
+2.  **Data Visualization & Dashboarding:** The processed data was then loaded into **Power BI** to create the data model and build interactive visualizations.
 
 ---
 
-## Temuan & Wawasan Kunci (Key Insights)
+## Dashboard Deep Dive
 
-- **Prediksi Bookmaker Tidak Selalu Akurat:** Dengan akurasi hanya **49.70%**, *odds* tidak bisa dijadikan satu-satunya patokan untuk hasil pertandingan.
-- **Upset adalah Hal yang Umum:** Lebih dari sepertiga (34.8%) pertandingan berakhir dengan kemenangan pemain yang tidak diunggulkan, menunjukkan tingkat kompetisi yang tinggi di WTA Tour.
-- **Spesialisasi Lapangan itu Nyata:** Dominasi pertandingan di Hard Court menunjukkan pentingnya kemampuan bermain di permukaan ini. Selain itu, akurasi *odds* yang berbeda-beda antar jenis lapangan menandakan adanya variabel performa yang unik di setiap permukaan.
-- **Pemain Dominan:** Terdapat sekelompok kecil pemain seperti Wozniacki, Azarenka, dan Serena Williams yang secara konsisten memenangkan pertandingan dalam jumlah besar selama periode waktu ini.
+The dashboard is divided into two main analytical sections:
+
+### 1. Page: WTA Matches Overview (2006–2025)
+This page provides a high-level overview of the WTA tournament landscape.
+
+**Main KPIs:**
+- **Total Matches:** 42,815
+- **Unique Players:** 2,148
+- **Average Sets per Match:** 2.33
+- **Upset Rate:** 34.8%
+
+**Key Visualizations:**
+- **Annual Match & Upset Rate Trend:** Shows the fluctuation in the total number of matches and the upset rate year over year.
+- **Top 10 Players by Total Wins:** Identifies the most dominant players in the dataset, led by Wozniacki (588 wins).
+- **Match Distribution by Round:** Reveals that nearly half (47.3%) of all matches occur in the first round.
+- **Match Distribution by Surface:** Highlights the dominance of **Hard Courts** (26K matches) compared to Clay (12K) and Grass (5K).
+
+### 2. Page: Predictability of Matches by Odds
+This page focuses on analyzing how accurately bookmaker odds predict match outcomes.
+
+**Main KPIs:**
+- **Overall Odds Accuracy:** 49.70% (nearly a coin toss).
+- **Average Odds Gap:** 50%
+- **Total Upsets:** 34.8% of matches were won by the underdog.
+
+**Key Visualizations:**
+- **Annual Odds Accuracy Trend:** Shows how bookmaker accuracy has fluctuated over time, generally staying between 40-55%.
+- **Odds Accuracy by Surface:** Provides insight that predictions are most accurate on **Greenset (59%)** and least accurate on **Carpet (47%)**.
+- **Odds Gap vs. Correct Prediction Relationship:** Confirms the hypothesis that the larger the odds gap between players, the higher the probability of a correct prediction by the bookmaker.
+- **Accuracy Matrix by Round and Surface:** Offers a granular analysis showing how accuracy varies depending on the combination of tournament round and surface type.
+
+---
+
+## Key Findings & Insights
+
+- **Bookmaker Predictions Are Not Always Reliable:** With an accuracy of only **49.70%**, odds should not be considered the sole predictor of a match's outcome.
+- **Upsets are Common:** Over a third (34.8%) of matches ended with the underdog winning, indicating a high level of competition on the WTA Tour.
+- **Surface Specialization is a Key Factor:** The dominance of matches on Hard Courts highlights the importance of performance on this surface. Furthermore, the varying odds accuracy across different surfaces suggests unique performance variables on each.
+- **Dominant Players:** A small group of players, including Wozniacki, Azarenka, and Serena Williams, consistently won a large number of matches during this period.
