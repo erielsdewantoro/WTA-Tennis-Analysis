@@ -31,15 +31,17 @@ Gunakan filter di sidebar untuk menjelajahi data.
 # 4. SIDEBAR (FILTER)
 st.sidebar.header("Filter Data")
 
-# Asumsi nama kolom adalah 'Year' dan 'Surface'. Ganti jika berbeda.
-unique_years = sorted(data['Year'].unique())
+# --- PERBAIKAN 1 ---
+# Mengganti 'Year' menjadi 'year' (huruf kecil)
+unique_years = sorted(data['year'].unique())
 selected_year = st.sidebar.selectbox("Pilih Tahun", ["Semua"] + unique_years)
 
 if selected_year != "Semua":
-    data_filtered = data[data['Year'] == selected_year]
+    data_filtered = data[data['year'] == selected_year]
 else:
     data_filtered = data.copy()
 
+# 'Surface' sudah benar
 unique_surfaces = sorted(data['Surface'].unique())
 selected_surface = st.sidebar.multiselect("Pilih Jenis Lapangan", unique_surfaces, default=unique_surfaces)
 
@@ -52,20 +54,25 @@ else:
 # 5. HALAMAN UTAMA (MAIN PAGE)
 st.header("Gambaran Umum Data (Berdasarkan Filter)")
 
-# Asumsi nama kolom 'Winner', 'Avg_Sets', 'Upset_Rate'. Ganti jika berbeda.
+# 'Winner' sudah benar
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("Total Pertandingan", f"{data_filtered.shape[0]:,}")
 with col2:
     st.metric("Pemain Unik", data_filtered['Winner'].nunique())
 with col3:
-    st.metric("Rata-rata Set", f"{data_filtered['Avg_Sets'].mean():.2f}")
+    # --- PERBAIKAN 2 ---
+    # Mengganti 'Avg_Sets' menjadi 'sets_played'
+    st.metric("Rata-rata Set", f"{data_filtered['sets_played'].mean():.2f}")
 with col4:
-    st.metric("Upset Rate (%)", f"{data_filtered['Upset_Rate'].mean() * 100:.1f}%")
+    # --- PERBAIKAN 3 ---
+    # Mengganti 'Upset_Rate' menjadi 'upset'
+    st.metric("Upset Rate (%)", f"{data_filtered['upset'].mean() * 100:.1f}%")
 
 # 6. TAMPILKAN GRAFIK
 st.header("Visualisasi Data")
 st.subheader("Top 10 Pemain dengan Kemenangan Terbanyak")
+# 'Winner' sudah benar
 top_10_winners = data_filtered['Winner'].value_counts().head(10).reset_index()
 top_10_winners.columns = ['Player', 'Total Wins']
 st.bar_chart(top_10_winners.set_index('Player'))
