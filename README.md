@@ -2,7 +2,7 @@
 
 ![WTA Dashboard Preview](wta-dashboard.png)
 
-### ► [View the Interactive Dashboard](https://drive.google.com/file/d/1oN-kCm_NKus6WUjQYlcA-1yjQF2bkxat/view?usp=drive_link)
+### ► [View the Interactive Dashboard](https://erieldewantoro-wta-tennis-analysis.streamlit.app/)
 
 ---
 
