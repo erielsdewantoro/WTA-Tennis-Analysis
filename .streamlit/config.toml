@@ -1,0 +1,17 @@
+[theme]
+
+# Warna utama untuk widget interaktif (filter, tombol, dll)
+# Kita akan gunakan warna biru cerah yang sporty
+primaryColor="#00A0FF"
+
+# Warna latar belakang utama
+backgroundColor="#0F1116"
+
+# Warna latar belakang sekunder (untuk sidebar dan widget)
+secondaryBackgroundColor="#1E212A"
+
+# Warna teks utama
+textColor="#FAFAFA"
+
+# Jenis font
+font="sans serif"
