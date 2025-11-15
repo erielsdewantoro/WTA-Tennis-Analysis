@@ -1,6 +1,6 @@
 # WTA Tennis Match Analysis & Odds Predictability Dashboard
 
-![WTA Dashboard Preview](wta-dashboard.png)
+![WTA Dashboard Preview](Dashboard.png)
 
 ### ► [View the Interactive Dashboard](https://erieldewantoro-wta-tennis-analysis.streamlit.app/)
 
