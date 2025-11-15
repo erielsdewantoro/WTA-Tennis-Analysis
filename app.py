@@ -25,7 +25,6 @@ st.markdown("""
 def load_data(filepath):
     data = pd.read_csv(filepath)
     # Membuat satu daftar pemain unik untuk filter H2H
-    # Kita gabungkan Player_1 dan Player_2, lalu ambil yang unik
     all_players = pd.concat([data['Player_1'], data['Player_2']]).unique()
     all_players.sort()
     return data, all_players
@@ -73,40 +72,117 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Analisis Head-to-Head (H2H) 🆚"  # --- TAB BARU V4.0 ---
 ])
 
-# === KONTEN TAB 1, 2, 3, 4 (TETAP SAMA DARI V3.0) ===
-# ... (Kode untuk 4 tab ini persis sama seperti V3.0) ...
-# (Saya akan singkat di sini agar fokus, tapi Anda harus menyalin SELURUH file V3.0)
-
+# === KONTEN TAB 1: DASHBOARD UTAMA ===
 with tab1:
     st.header("Gambaran Umum Performa")
     st.markdown("Metrik performa kunci berdasarkan filter yang Anda pilih.")
+    
     col1, col2, col3, col4 = st.columns(4)
-    with col1: st.metric("Total Pertandingan", f"{data_filtered.shape[0]:,}")
-    with col2: st.metric("Pemain Unik", data_filtered['Winner'].nunique())
-    with col3: st.metric("Rata-rata Set", f"{data_filtered['sets_played'].mean():.2f}")
-    with col4: st.metric("Upset Rate", f"{data_filtered['upset'].mean() * 100:.1f}%")
-    st.markdown("---")
-    # ... (Sisa kode Tab 1, 2, 3, 4) ...
+    with col1:
+        st.metric("Total Pertandingan", f"{data_filtered.shape[0]:,}")
+    with col2:
+        st.metric("Pemain Unik", data_filtered['Winner'].nunique())
+    with col3:
+        st.metric("Rata-rata Set", f"{data_filtered['sets_played'].mean():.2f}")
+    with col4:
+        st.metric("Upset Rate", f"{data_filtered['upset'].mean() * 100:.1f}%")
 
+    st.markdown("---")
+    col_kiri, col_kanan = st.columns(2)
+    
+    with col_kiri:
+        st.subheader("Top 10 Pemain dengan Kemenangan Terbanyak")
+        top_10_winners = data_filtered['Winner'].value_counts().head(10).reset_index()
+        top_10_winners.columns = ['Player', 'Total Wins']
+        fig_bar = px.bar(
+            top_10_winners, 
+            x='Total Wins', 
+            y='Player', 
+            orientation='h',
+            title="Top 10 Pemain Pemenang",
+            labels={'Player': 'Pemain', 'Total Wins': 'Jumlah Kemenangan'},
+            text='Total Wins'
+        )
+        fig_bar.update_layout(yaxis={'categoryorder':'total ascending'})
+        st.plotly_chart(fig_bar, use_container_width=True)
+        st.info("💡 **Insight:** Grafik ini menunjukkan pemain paling dominan. Gunakan filter tahun untuk melihat siapa yang mendominasi di tahun tertentu.")
+
+    with col_kanan:
+        st.subheader("Distribusi Pertandingan per Babak")
+        round_distribution = data_filtered['Round'].value_counts().reset_index()
+        round_distribution.columns = ['Round', 'Count']
+        fig_pie = px.pie(
+            round_distribution, 
+            names='Round', 
+            values='Count', 
+            title="Persentase Pertandingan per Babak",
+            hole=0.4
+        )
+        fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+        st.plotly_chart(fig_pie, use_container_width=True)
+        st.info("💡 **Insight:** Seperti yang terlihat, sebagian besar pertandingan terjadi di babak-babak awal turnamen.")
+
+# === KONTEN TAB 2: ANALISIS LAPANGAN ===
 with tab2:
     st.header("Analisis Performa Berdasarkan Jenis Lapangan")
-    # ... (Kode lengkap Tab 2) ...
+    st.markdown("Bagaimana jenis lapangan (Surface) memengaruhi hasil pertandingan?")
+    surface_wins = data_filtered['Surface'].value_counts().reset_index()
+    surface_wins.columns = ['Surface', 'Total Matches']
+    fig_surface = px.bar(
+        surface_wins,
+        x='Surface',
+        y='Total Matches',
+        title="Jumlah Pertandingan per Jenis Lapangan",
+        labels={'Surface': 'Jenis Lapangan', 'Total Matches': 'Jumlah Pertandingan'},
+        color='Surface'
+    )
+    st.plotly_chart(fig_surface, use_container_width=True)
+    st.info("💡 **Insight:** Lapangan 'Hard' jelas mendominasi jumlah turnamen yang dimainkan sepanjang tahun.")
 
+# === KONTEN TAB 3: ANALISIS UPSET & ODDS ===
 with tab3:
     st.header("Analisis Upset dan Odds (Peluang)")
-    # ... (Kode lengkap Tab 3) ...
+    st.markdown("Menganalisis frekuensi kemenangan tak terduga (upset) dan hubungannya dengan odds.")
+    
+    col_upset_1, col_upset_2 = st.columns(2)
+    with col_upset_1:
+        st.metric("Total Upset Terjadi", f"{data_filtered['upset'].sum():,}")
+    with col_upset_2:
+        st.metric("Rata-rata Odds Gap", f"{data_filtered['odds_gap'].mean():.2f}")
 
+    st.markdown("---")
+    st.subheader("Tren Upset Rate dari Tahun ke Tahun")
+    
+    if selected_year == "Semua Tahun":
+        upset_trend = data[data['Surface'].isin(selected_surface)].groupby('year')['upset'].mean().reset_index()
+        upset_trend.columns = ['Year', 'Upset Rate']
+        fig_line = px.line(
+            upset_trend,
+            x='Year',
+            y='Upset Rate',
+            title="Fluktuasi Upset Rate Tahunan",
+            labels={'Year': 'Tahun', 'Upset Rate': 'Rata-rata Upset Rate'},
+            markers=True
+        )
+        fig_line.update_layout(yaxis_tickformat='.0%')
+        st.plotly_chart(fig_line, use_container_width=True)
+        st.info("💡 **Insight:** Grafik ini menunjukkan apakah tenis menjadi lebih atau kurang dapat diprediksi dari waktu ke waktu. Gunakan filter 'Jenis Lapangan' untuk melihat tren di lapangan tertentu.")
+    else:
+        st.warning(f"Grafik tren tahunan only dapat ditampilkan jika Anda memilih 'Semua Tahun' di filter sidebar. (Anda sedang memilih {selected_year})")
+
+# === KONTEN TAB 4: EXPLORE DATA ===
 with tab4:
     st.header("Jelajahi Data Mentah")
-    # ... (Kode lengkap Tab 4) ...
+    st.markdown("Lihat data yang telah difilter dalam format tabel.")
+    with st.expander("Tampilkan Data (sesuai filter)", expanded=False):
+        st.dataframe(data_filtered)
+    st.markdown(f"Menampilkan **{data_filtered.shape[0]:,} baris** dari **{data.shape[0]:,} total baris**.")
 
-
-# === KONTEN TAB 5: HEAD-TO-HEAD (H2H) --- INI KODE BARU V4.0 ===
+# === KONTEN TAB 5: HEAD-TO-HEAD (H2H) ===
 with tab5:
     st.header("Analisis Head-to-Head (H2H) 🆚")
     st.markdown("Pilih dua pemain untuk melihat riwayat pertemuan mereka. Fitur ini menjawab kebutuhan **Coach**, **Player**, dan **Media**.")
 
-    # Gunakan data 'all_players' yang sudah kita siapkan
     col1, col2 = st.columns(2)
     with col1:
         player_a = st.selectbox("Pilih Pemain A", all_players, index=None, placeholder="Ketik nama pemain...")
@@ -116,17 +192,14 @@ with tab5:
     if player_a and player_b and (player_a != player_b):
         st.markdown("---")
         
-        # Logika Filter H2H: Cari pertandingan di mana A adalah Player_1 dan B adalah Player_2
+        # Logika Filter H2H
         h2h_data_1 = data[
             (data['Player_1'] == player_a) & (data['Player_2'] == player_b)
         ]
-        
-        # ATAU di mana B adalah Player_1 dan A adalah Player_2
         h2h_data_2 = data[
             (data['Player_1'] == player_b) & (data['Player_2'] == player_a)
         ]
         
-        # Gabungkan keduanya
         h2h_data = pd.concat([h2h_data_1, h2h_data_2]).sort_values(by='Date')
 
         if h2h_data.empty:
@@ -139,7 +212,6 @@ with tab5:
 
             st.subheader(f"Rekor Pertemuan: {player_a} vs {player_b}")
             
-            # Tampilkan dalam layout kolom yang menarik
             col_kpi_1, col_kpi_2, col_kpi_3 = st.columns(3)
             col_kpi_1.metric("Total Pertemuan", total_matches)
             col_kpi_2.metric(f"Kemenangan {player_a}", wins_a)
@@ -149,13 +221,11 @@ with tab5:
             st.subheader("Kemenangan Berdasarkan Jenis Lapangan")
             wins_by_surface = h2h_data.groupby('Surface')['Winner'].value_counts().unstack(fill_value=0).reset_index()
             
-            # Kita perlu memastikan kedua pemain ada di kolom walau mereka 0 menang di 1 surface
             if player_a not in wins_by_surface.columns:
                 wins_by_surface[player_a] = 0
             if player_b not in wins_by_surface.columns:
                 wins_by_surface[player_b] = 0
 
-            # Gunakan format data 'long' untuk Plotly
             wins_by_surface_long = pd.melt(wins_by_surface, id_vars=['Surface'], value_vars=[player_a, player_b], var_name='Player', value_name='Wins')
 
             fig_h2h_surface = px.bar(
@@ -163,7 +233,7 @@ with tab5:
                 x='Surface',
                 y='Wins',
                 color='Player',
-                barmode='group', # Buat bar berdampingan
+                barmode='group',
                 title=f"Distribusi Kemenangan H2H di Berbagai Lapangan",
                 labels={'Surface': 'Jenis Lapangan', 'Wins': 'Jumlah Kemenangan'}
             )
@@ -171,7 +241,6 @@ with tab5:
             
             # Menjawab feedback "jago di lapangan apa, underdog apa engga"
             st.subheader("Detail Riwayat Pertandingan")
-            # Tampilkan kolom yang relevan
             st.dataframe(h2h_data[[
                 'Date', 'Tournament', 'Surface', 'Round', 'Winner', 'Score', 'upset', 'odds_gap'
             ]])
