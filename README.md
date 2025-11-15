@@ -34,7 +34,7 @@ This single-page dashboard summarizes the key findings from over 42,000 matches,
 * **Consistent Elite Players:** Despite the high upset rate, the 'Top 10 Pemain' chart shows that a core group of elite players (led by Wozniacki, Azarenka, and S. Williams) consistently dominated in total wins over this period.
 * **Annual Upset Trend:** The line chart reveals the fluctuation of upset rates year over year, allowing for analysis of the tour's predictability over time.
 
-![WTA Dashboard Preview](Dashboard.png)
+![WTA Dashboard Preview](Barru.png)
 
 ### ► [View the Interactive Dashboard](https://erieldewantoro-wta-tennis-analysis.streamlit.app/)
 
